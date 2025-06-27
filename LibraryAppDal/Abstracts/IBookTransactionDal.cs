@@ -21,7 +21,5 @@ namespace LibraryAppDal.Abstracts
 		void ReturnBook(int bookId);
 		List<StudentHasBooks> StudentsHasBooks(int studentId);
 		StatisticsDto GetStatistics();
-
-		void BenchmarkGetStatistics();
 	}
 }

@@ -96,10 +96,7 @@ namespace LibraryApp.Business.Concretes
 		}
 		public StatisticsDto GetStatistics()
 		{
-			//return _bookTransactionDal.GetStatistics();
-
-			_bookTransactionDal.BenchmarkGetStatistics();
-			return default;
+			return _bookTransactionDal.GetStatistics();
 		}
 	}
 }

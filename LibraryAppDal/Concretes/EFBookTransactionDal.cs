@@ -163,55 +163,33 @@ namespace LibraryAppDal.Concretes
 				.AsNoTracking()
 				.FirstOrDefault();
 
-			int totalBooks = _context.Books.Count();
-			int totalAuthors = _context.Authors.Count();
-			int totalCategories = _context.Categories.Count();
-			int totalStudents = _context.Students.Count();
-			int totalBorrowedBooks = _context.BookTransfer.Count(bt => bt.ReturnedDate == null);
-			int totalReturnedBooks = _context.BookTransfer.Count(bt => bt.ReturnedDate != null);
+			var counts = _context.Books
+				.GroupBy(x => 0)
+				.Select(g => new
+			{
+				TotalBooks = _context.Books.Count(),
+				TotalAuthors = _context.Authors.Count(),
+				TotalCategories = _context.Categories.Count(),
+				TotalStudents = _context.Students.Count(),
+				TotalBorrowedBooks = _context.BookTransfer.Count(bt => bt.BorrowedDate != null),
+				TotalReturnedBooks = _context.BookTransfer.Count(bt => bt.ReturnedDate != null)
+			})
+				.AsNoTracking()
+				.FirstOrDefault();
 
 			return new StatisticsDto
 			{
 				MostPopularBook = mostPopularBookName,
 				MostPopularAuthor = mostPopularAuthorName,
 				MostPopularCategory = mostPopularCategoryName,
-				TotalBooks = totalBooks,
-				TotalAuthors = totalAuthors,
-				TotalCategories = totalCategories,
-				TotalStudents = totalStudents,
-				TotalBorrowedBooks = totalBorrowedBooks,
-				TotalReturnedBooks = totalReturnedBooks
-
+				TotalBooks = counts?.TotalBooks ?? 0,
+				TotalAuthors = counts?.TotalAuthors ?? 0,
+				TotalCategories = counts?.TotalCategories ?? 0,
+				TotalStudents = counts?.TotalStudents ?? 0,
+				TotalBorrowedBooks = counts?.TotalBorrowedBooks ?? 0,
+				TotalReturnedBooks = counts?.TotalReturnedBooks ?? 0
 			};
 		}
-
-	public void BenchmarkGetStatistics()
-	{
-		const int iterations = 1000;
-		var stopwatch = new Stopwatch();
-		var executionTimes = new List<long>();
-
-		for (int i = 0; i < iterations; i++)
-		{
-			stopwatch.Restart();
-			var stats = GetStatistics();
-			stopwatch.Stop();
-
-			executionTimes.Add(stopwatch.ElapsedMilliseconds);
-
-			// Optional: Print progress every 100 iterations
-			if ((i + 1) % 100 == 0)
-			{
-				Debug.WriteLine($"Completed {i + 1} iterations...");
-			}
-		}
-
-		double averageTime = executionTimes.Average();
-		Debug.WriteLine($"Average execution time over {iterations} runs: {averageTime} ms");
-		Debug.WriteLine($"Fastest execution: {executionTimes.Min()} ms");
-		Debug.WriteLine($"Slowest execution: {executionTimes.Max()} ms");
-	}
-
 
 	public void UpdateBookTransactions(BookTransfer bookTransfer)
 		{

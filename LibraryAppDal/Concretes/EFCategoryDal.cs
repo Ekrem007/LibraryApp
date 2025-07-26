@@ -40,17 +40,20 @@ namespace LibraryAppDal.Concretes
 		{
 			var categories = _context.Categories
 				.Include(c => c.Books)
-				.ToList() 
+					.ThenInclude(b => b.BookStocks)
 				.Select(c => new CategoryDto
 				{
 					Id = c.Id,
 					CategoryName = c.CategoryName,
-					TotalBooks = c.Books.Count,
-					TotalAvailableBooks = c.Books.Count(b => _bookTransactionDal.IsBookAvailable(b.Id)),
-					TotalNotAvailableBooks = c.Books.Count(b => !_bookTransactionDal.IsBookAvailable(b.Id))
+					TotalBooks = c.Books.Count(),
+					TotalAvailableBooks = c.Books
+						.SelectMany(b => b.BookStocks)
+						.Count(bs => bs.IsAvailable == "Available"),
+					TotalNotAvailableBooks = c.Books
+						.SelectMany(b => b.BookStocks)
+						.Count(bs => bs.IsAvailable == "Not Available")
 				})
 				.ToList();
-
 			return categories;
 		}
 		public void UpdateCategory(Category category)

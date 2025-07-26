@@ -35,6 +35,9 @@ namespace LibraryApp.UI
 			services.AddScoped<IStudentService, StudentService>();
 			services.AddScoped<IBookTransactionDal, EFBookTransactionDal>();
 			services.AddScoped<IBookTransactionService, BookTransactionService>();
+			services.AddScoped<IBookStockDal, EFBookStockDal>();
+			services.AddScoped<IBookStockService, BookStockService>();
+
 
 			var serviceProvider = services.BuildServiceProvider();
 			var form = serviceProvider.GetRequiredService<frmMain>();

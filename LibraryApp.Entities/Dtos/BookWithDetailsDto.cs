@@ -15,5 +15,8 @@ namespace LibraryApp.Entities.Dtos
 		public int? CategoryId { get; set; }
 		public string CategoryName { get; set; }
 		public string IsAvailable { get; set; }
+		public int? BookStock { get; set; }
+		public int? AvailableStock { get; set; }
+		public bool? IsPassive { get; set; }
 	}
 }

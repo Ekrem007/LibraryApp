@@ -17,6 +17,10 @@ namespace LibraryApp.Entities.Dtos
 		public int TotalStudents { get; set; }
 		public int TotalBorrowedBooks { get; set; }
 		public int TotalReturnedBooks { get; set; }
+		public int TotalBookStocks { get; set; }
+		public int TotalAvailableBookStocks { get; set; }
+		public int TotalDamagedLostBooksStock { get; set; }
+		public int TotalNotAvailableBooks { get; set; }
 
 	}
 }

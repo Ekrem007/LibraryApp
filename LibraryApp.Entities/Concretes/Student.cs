@@ -13,5 +13,6 @@ namespace LibraryApp.Entities.Concretes
 		public string StudentNumber { get; set; }
 		public string PhoneNumber { get; set; }
 		public ICollection<BookTransfer> BookTransfers { get; set; }
+
 	}
 }

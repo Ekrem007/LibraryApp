@@ -31,27 +31,6 @@ namespace LibraryAppDal.Concretes
 			_context.SaveChanges();
 		}
 
-		public List<StudentWithDetailsDto> GetAllStudents()
-		{
-			var studentsWithBooks = _context.Students.GroupJoin(_context.BookTransfer.Include(bt => bt.Book),
-			s => s.Id,
-			bt => bt.StudentId,
-			(student, bookTransfers) => new StudentWithDetailsDto
-			{
-				Id = student.Id,
-				Name = student.Name,
-				StudentNumber = student.StudentNumber,
-				PhoneNumber = student.PhoneNumber,
-				TotalBorrowedBookCount = bookTransfers.Count(),
-				LastBorrowedBookName = bookTransfers
-					.OrderByDescending(bt => bt.BorrowedDate)
-					.Select(bt => bt.Book.BookName)
-					.FirstOrDefault()
-			})
-		.ToList();
-
-			return studentsWithBooks;
-		}
 
 		public Student GetbyStudentId(int studentId)
 		{
@@ -80,6 +59,35 @@ namespace LibraryAppDal.Concretes
 		public bool IsStudentNumberUnique(string studentNumber, int id)
 		{
 			return !_context.Students.Any(s => s.StudentNumber == studentNumber && s.Id != id);
+		}
+
+		public List<StudentWithDetailsDto> GetAllStudents()
+		{
+			return _context.Students
+				.Select(s => new StudentWithDetailsDto
+				{
+					Id = s.Id,
+					Name = s.Name,
+					StudentNumber = s.StudentNumber,
+					PhoneNumber = s.PhoneNumber,
+					TotalBorrowedBookCount = _context.BookTransfer.Count(bt => bt.StudentId == s.Id),
+					LastBorrowedBookName = _context.BookTransfer
+						.Where(bt => bt.StudentId == s.Id)
+						.OrderByDescending(bt => bt.BorrowedDate)
+						.Select(bt => bt.BookStock.Book.BookName)
+						.FirstOrDefault(),
+					AverageReadingDays = _context.BookTransfer
+						.Where(bt => bt.StudentId == s.Id)
+						.Average(bt => EF.Functions.DateDiffDay(bt.BorrowedDate, bt.ReturnedDate)),
+					FavoriteCategory = _context.BookTransfer
+						.Where(bt => bt.StudentId == s.Id)
+						.GroupBy(bt => bt.BookStock.Book.Category.CategoryName)
+						.OrderByDescending(g => g.Count())
+						.Select(g => g.Key)
+						.FirstOrDefault()
+				}).ToList();
+
+
 		}
 	}
 }

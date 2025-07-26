@@ -1,10 +1,12 @@
 ﻿using DevExpress.XtraEditors;
 using DevExpress.XtraGrid.Columns;
+using DevExpress.XtraGrid.Views.Base;
 using LibraryApp.Business.Abstracts;
 using LibraryApp.Business.Concretes;
 using LibraryApp.Entities.Dtos;
 using LibraryApp.UI.Books;
 using LibraryApp.UI.BookTransactions;
+using System;
 using System.Windows.Forms;
 
 namespace LibraryApp.UI
@@ -16,8 +18,9 @@ namespace LibraryApp.UI
 		private readonly IAuthorService _authorService;
 		private readonly IBookTransactionService _bookTransactionService;
 		private readonly IStudentService _studentService;
+		private readonly IBookStockService _bookStockService;
 		public frmBooks(IBookService bookService, ICategoryService categoryService, IAuthorService authorService,
-			IBookTransactionService bookTransactionService,IStudentService studentService)
+			IBookTransactionService bookTransactionService,IStudentService studentService, IBookStockService bookStockService)
 		{
 			InitializeComponent();
 			_bookService = bookService;
@@ -25,13 +28,17 @@ namespace LibraryApp.UI
 			_authorService = authorService;
 			_studentService = studentService;
 			_bookTransactionService = bookTransactionService;
+			_bookStockService = bookStockService;
 			LoadBooks();
 			gridViewBooks.MouseUp += gridView1_MouseUp;
 			btnUpdateBook.ItemClick += btnUpdateBook_ItemClick;
 			btnDeleteBook.ItemClick += btnDeleteBook_ItemClick;
 			btnRefreshData.ItemClick += btnRefreshData_ItemClick;
 			btnAdBook.ItemClick += btnAddBook_ItemClick;
+			gridControlBooks.MouseUp += gridControlBooks_MouseUp;
 			btnGiveBookToStudent.ItemClick += btnGiveBookToStudent_ItemClick;
+			gridViewBooks.CellValueChanging += gridViewBooks_CellValueChanging;
+
 		}
 
 		private void LoadBooks()
@@ -64,6 +71,13 @@ namespace LibraryApp.UI
 					view.FocusedRowHandle = hitInfo.RowHandle;
 					popupMenuBooks.ShowPopup(Control.MousePosition);
 				}
+			}
+		}
+		private void gridControlBooks_MouseUp(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Right)
+			{
+				popupMenuBooks.ShowPopup(Control.MousePosition);
 			}
 		}
 
@@ -116,8 +130,32 @@ namespace LibraryApp.UI
 		}
 		private void btnGiveBookToStudent_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
-			frmAddBookTransaction addBookTransactionForm = new frmAddBookTransaction(_bookTransactionService, _studentService, _bookService);
+			frmAddBookTransaction addBookTransactionForm = new frmAddBookTransaction(_bookTransactionService, _studentService, _bookService,_bookStockService);
 			addBookTransactionForm.Show();
+		}
+		private void ChangeBookStatus(int bookId)
+		{
+			var book = _bookService.GetBookById(bookId);
+			if (book != null)
+			{
+				_bookService.ChangeBookStatus(bookId);
+				LoadBooks();
+				MessageBox.Show($"Book status changed successfully.");
+			}
+			else
+			{
+				MessageBox.Show("Book not found.");
+			}
+
+
+		}
+		private void gridViewBooks_CellValueChanging(object sender, CellValueChangedEventArgs e)
+		{
+			if (e.Column.FieldName == "IsPassive")
+			{
+				int bookId = Convert.ToInt32(gridViewBooks.GetRowCellValue(e.RowHandle, "Id"));
+				ChangeBookStatus(bookId); 
+			}
 		}
 
 	}

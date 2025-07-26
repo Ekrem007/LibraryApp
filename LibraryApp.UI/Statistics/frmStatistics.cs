@@ -31,8 +31,10 @@ namespace LibraryApp.UI.Statistics
 		private void LoadStatistics()
 		{
 			var statistics = _bookTransactionService.GetStatistics();
-			gridControlStatistics.DataSource = new List<StatisticsDto> { statistics };
-			gridViewStatistics.BestFitColumns();
+			gridControlStatistics1.DataSource = new List<StatisticsDto> { statistics };
+			gridControlStatistic2.DataSource = new List<StatisticsDto> { statistics };
+			gridViewStatistics1.BestFitColumns();
+			gridViewStatistics2.BestFitColumns();
 
 		}
 

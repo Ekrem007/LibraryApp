@@ -36,6 +36,7 @@ namespace LibraryApp.UI.frmAuthor
 			btnDeleteCategory.ItemClick += btnDeleteCategory_ItemClick;
 			btnRefreshData.ItemClick += btnRefreshData_ItemClick;
 			btnGetCategoryHasBooks.ItemClick += btnGetCategoriesHasBooks_ItemClick;
+			gridControlCategories.MouseUp += gridControlCategories_MouseUp;
 			LoadCategories();
 
 		}
@@ -70,6 +71,14 @@ namespace LibraryApp.UI.frmAuthor
 					view.FocusedRowHandle = hitInfo.RowHandle;
 					popupMenuCategories.ShowPopup(Control.MousePosition);
 				}
+			}
+		}
+		private void gridControlCategories_MouseUp(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Right)
+			{
+				
+					popupMenuCategories.ShowPopup(Control.MousePosition);
 			}
 		}
 		private void btnAddCategory_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)

@@ -28,9 +28,8 @@ namespace LibraryApp.Business.Concretes
 				throw new Exception("Book Name not unique.");
 			}
 			_bookDal.AddBook(book);
-
-
 		}
+
 
 		public void DeleteBook(int bookId)
 		{
@@ -74,6 +73,10 @@ namespace LibraryApp.Business.Concretes
 			}
 
 			_bookDal.UpdateBook(book);
+		}
+		public void ChangeBookStatus(int bookId)
+		{
+			_bookDal.ChangeBookStatus(bookId);
 		}
 	}
 }

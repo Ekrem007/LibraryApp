@@ -14,5 +14,7 @@ namespace LibraryApp.Entities.Dtos
 		public string PhoneNumber { get; set; }
 		public int? TotalBorrowedBookCount { get; set; }
 		public string? LastBorrowedBookName { get; set; }
+		public double? AverageReadingDays { get; set; } 
+		public string? FavoriteCategory { get; set; }
 	}
 }

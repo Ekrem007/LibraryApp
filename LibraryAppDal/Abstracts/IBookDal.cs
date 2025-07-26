@@ -13,11 +13,12 @@ namespace LibraryAppDal.Abstracts
 		void AddBook(Book book);
 		void DeleteBook(int bookId);
 		Book GetBookById(int bookId);
-		List<BookWithDetailsDto>GetAllBooks();
+		List<BookWithDetailsDto> GetAllBooks();
 		void UpdateBook(Book book);
 		List<Book> GetBooksByAuthorId(int authorId);
 		List<Book> GetBooksByCategoryId(int categoryId);
 		bool IsBookNameUnique(string bookName, int id);
+		void ChangeBookStatus(int bookId);
 
 	}
 }

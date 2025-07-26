@@ -22,6 +22,68 @@ namespace LibraryAppDal.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Book", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("AuthorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("BookName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<bool?>("IsPassive")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("BookName")
+                        .IsUnique();
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Books");
+                });
+
+            modelBuilder.Entity("BookTransfer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BookStockId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("BorrowedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ReturnedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("StudentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookStockId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("BookTransfer");
+                });
+
             modelBuilder.Entity("LibraryApp.Entities.Concretes.Author", b =>
                 {
                     b.Property<int>("Id")
@@ -42,7 +104,7 @@ namespace LibraryAppDal.Migrations
                     b.ToTable("Authors");
                 });
 
-            modelBuilder.Entity("LibraryApp.Entities.Concretes.Book", b =>
+            modelBuilder.Entity("LibraryApp.Entities.Concretes.BookStock", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -50,55 +112,27 @@ namespace LibraryAppDal.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("AuthorId")
+                    b.Property<Guid>("Barcode")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("BookId")
                         .HasColumnType("int");
 
-                    b.Property<string>("BookName")
+                    b.Property<string>("IsAvailable")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CategoryId")
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId");
-
-                    b.HasIndex("BookName")
+                    b.HasIndex("Barcode")
                         .IsUnique();
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("Books");
-                });
-
-            modelBuilder.Entity("LibraryApp.Entities.Concretes.BookTransfer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("BookId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("BorrowedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("ReturnedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("StudentId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
 
                     b.HasIndex("BookId");
 
-                    b.HasIndex("StudentId");
-
-                    b.ToTable("BookTransfer");
+                    b.ToTable("BookStocks");
                 });
 
             modelBuilder.Entity("LibraryApp.Entities.Concretes.Category", b =>
@@ -149,7 +183,7 @@ namespace LibraryAppDal.Migrations
                     b.ToTable("Students");
                 });
 
-            modelBuilder.Entity("LibraryApp.Entities.Concretes.Book", b =>
+            modelBuilder.Entity("Book", b =>
                 {
                     b.HasOne("LibraryApp.Entities.Concretes.Author", "Author")
                         .WithMany("Books")
@@ -166,21 +200,38 @@ namespace LibraryAppDal.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("LibraryApp.Entities.Concretes.BookTransfer", b =>
+            modelBuilder.Entity("BookTransfer", b =>
                 {
-                    b.HasOne("LibraryApp.Entities.Concretes.Book", "Book")
+                    b.HasOne("LibraryApp.Entities.Concretes.BookStock", "BookStock")
                         .WithMany("BookTransfers")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("BookStockId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("LibraryApp.Entities.Concretes.Student", "Student")
                         .WithMany("BookTransfers")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.Navigation("Book");
+                    b.Navigation("BookStock");
 
                     b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("LibraryApp.Entities.Concretes.BookStock", b =>
+                {
+                    b.HasOne("Book", "Book")
+                        .WithMany("BookStocks")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+                });
+
+            modelBuilder.Entity("Book", b =>
+                {
+                    b.Navigation("BookStocks");
                 });
 
             modelBuilder.Entity("LibraryApp.Entities.Concretes.Author", b =>
@@ -188,7 +239,7 @@ namespace LibraryAppDal.Migrations
                     b.Navigation("Books");
                 });
 
-            modelBuilder.Entity("LibraryApp.Entities.Concretes.Book", b =>
+            modelBuilder.Entity("LibraryApp.Entities.Concretes.BookStock", b =>
                 {
                     b.Navigation("BookTransfers");
                 });

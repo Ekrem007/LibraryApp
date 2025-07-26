@@ -21,12 +21,16 @@ namespace LibraryApp.UI.frmBookTransaction
 		private readonly IBookTransactionService _bookTransactionService;
 		private readonly IStudentService _studentService;
 		private readonly IBookService _bookService;
-		public frmBookTransactions(IBookTransactionService bookTransactionService, IStudentService studentService, IBookService bookService)
+		private readonly IBookStockService _bookStockService;
+		public frmBookTransactions(IBookTransactionService bookTransactionService, IStudentService studentService,
+			IBookService bookService,
+			IBookStockService bookStockService)
 		{
 			InitializeComponent();
 			_bookTransactionService = bookTransactionService;
 			_studentService = studentService;
 			_bookService = bookService;
+			_bookStockService = bookStockService;
 			LoadBookTransactions();
 			gridViewBookTransferOperations.MouseUp += gridViewBookTransactions_MouseUp;
 			btnUpdateBookTransaction.ItemClick += btnUpdateBookTransaction_ItemClick;
@@ -47,7 +51,7 @@ namespace LibraryApp.UI.frmBookTransaction
 
 		private void btnGiveBookToStudent_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
-			frmAddBookTransaction addBookTransactionForm = new frmAddBookTransaction(_bookTransactionService, _studentService, _bookService);
+			frmAddBookTransaction addBookTransactionForm = new frmAddBookTransaction(_bookTransactionService, _studentService, _bookService,_bookStockService);
 			addBookTransactionForm.Show();
 		}
 		private void gridViewBookTransactions_MouseUp(object sender, MouseEventArgs e)
@@ -70,7 +74,7 @@ namespace LibraryApp.UI.frmBookTransaction
 			if (gridViewBookTransferOperations.GetFocusedRow() is BookTransactionsWithDetailsDto selectedTransaction)
 			{
 				int bookTransactionId = selectedTransaction.Id;
-				frmAddBookTransaction addBookTransactionForm = new frmAddBookTransaction(_bookTransactionService, _studentService, _bookService, bookTransactionId);
+				frmAddBookTransaction addBookTransactionForm = new frmAddBookTransaction(_bookTransactionService, _studentService, _bookService,_bookStockService, bookTransactionId);
 				addBookTransactionForm.Show();
 			}
 			else
@@ -124,24 +128,24 @@ namespace LibraryApp.UI.frmBookTransaction
 		}
 		private void btnReturnBook_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
-
-
 			if (gridViewBookTransferOperations.GetFocusedRow() is BookTransactionsWithDetailsDto selectedTransaction)
 			{
 				if (selectedTransaction.ReturnDate != null)
 				{
-					MessageBox.Show("book already returned");
+					MessageBox.Show("Book already returned.");
 					return;
 				}
-				int bookId = (int)selectedTransaction.BookId;
-				_bookTransactionService.ReturnBook(bookId);
+
+				if (selectedTransaction.BookStockId == null)
+				{
+					MessageBox.Show("BookStockId bulunamadı. Lütfen veri tabanını ve kayıtları kontrol edin.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					return;
+				}
+
+				int bookStockId = selectedTransaction.BookStockId.Value;
+				_bookTransactionService.ReturnBook(bookStockId);
 				MessageBox.Show("Book returned successfully.");
 				LoadBookTransactions();
-				if (selectedTransaction.ReturnDate != null)
-				{
-					MessageBox.Show("Bu kitap zaten iade edilmiş.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-					return;
-				}
 			}
 			else
 			{

@@ -37,6 +37,8 @@
 			colStudentNumber = new DevExpress.XtraGrid.Columns.GridColumn();
 			colLastBorrowedBook = new DevExpress.XtraGrid.Columns.GridColumn();
 			colTotalBorrowedBookCount = new DevExpress.XtraGrid.Columns.GridColumn();
+			colFavoriteCategory = new DevExpress.XtraGrid.Columns.GridColumn();
+			colAverageReturnedBookTime = new DevExpress.XtraGrid.Columns.GridColumn();
 			barManagerStudents = new DevExpress.XtraBars.BarManager(components);
 			bar1 = new DevExpress.XtraBars.Bar();
 			bar2 = new DevExpress.XtraBars.Bar();
@@ -71,7 +73,7 @@
 			// 
 			// gridViewStudents
 			// 
-			gridViewStudents.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] { colId, clmName, clmPhoneNumber, colStudentNumber, colLastBorrowedBook, colTotalBorrowedBookCount });
+			gridViewStudents.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] { colId, clmName, clmPhoneNumber, colStudentNumber, colLastBorrowedBook, colTotalBorrowedBookCount, colFavoriteCategory, colAverageReturnedBookTime });
 			gridViewStudents.DetailHeight = 431;
 			gridViewStudents.GridControl = gridControlStudents;
 			gridViewStudents.Name = "gridViewStudents";
@@ -149,6 +151,33 @@
 			colTotalBorrowedBookCount.Visible = true;
 			colTotalBorrowedBookCount.VisibleIndex = 5;
 			colTotalBorrowedBookCount.Width = 94;
+			// 
+			// colFavoriteCategory
+			// 
+			colFavoriteCategory.AccessibleName = "colFavoriteCategory";
+			colFavoriteCategory.Caption = "Favorite Category";
+			colFavoriteCategory.FieldName = "FavoriteCategory";
+			colFavoriteCategory.MinWidth = 25;
+			colFavoriteCategory.Name = "colFavoriteCategory";
+			colFavoriteCategory.Visible = true;
+			colFavoriteCategory.VisibleIndex = 6;
+			colFavoriteCategory.Width = 94;
+			// 
+			// colAverageReturnedBookTime
+			// 
+			colAverageReturnedBookTime.AccessibleName = "colAverageReturnedBookTime";
+			colAverageReturnedBookTime.AppearanceCell.Options.UseTextOptions = true;
+			colAverageReturnedBookTime.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
+			colAverageReturnedBookTime.Caption = "Avarage Returned Book  Time";
+			colAverageReturnedBookTime.DisplayFormat.FormatString = "N1";
+			colAverageReturnedBookTime.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+			colAverageReturnedBookTime.FieldName = "AverageReadingDays";
+			colAverageReturnedBookTime.MinWidth = 25;
+			colAverageReturnedBookTime.Name = "colAverageReturnedBookTime";
+			colAverageReturnedBookTime.OptionsColumn.AllowEdit = false;
+			colAverageReturnedBookTime.Visible = true;
+			colAverageReturnedBookTime.VisibleIndex = 7;
+			colAverageReturnedBookTime.Width = 94;
 			// 
 			// barManagerStudents
 			// 
@@ -311,5 +340,7 @@
 		private DevExpress.XtraGrid.Columns.GridColumn colStudentNumber;
 		private DevExpress.XtraGrid.Columns.GridColumn colLastBorrowedBook;
 		private DevExpress.XtraGrid.Columns.GridColumn colTotalBorrowedBookCount;
+		private DevExpress.XtraGrid.Columns.GridColumn colFavoriteCategory;
+		private DevExpress.XtraGrid.Columns.GridColumn colAverageReturnedBookTime;
 	}
 }

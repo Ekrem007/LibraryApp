@@ -42,6 +42,8 @@
 			navBarItemStudents = new DevExpress.XtraNavBar.NavBarItem();
 			navBarItemBookTransactions = new DevExpress.XtraNavBar.NavBarItem();
 			navBarItemStatistics = new DevExpress.XtraNavBar.NavBarItem();
+			navBarItemBookStocks = new DevExpress.XtraNavBar.NavBarItem();
+			navBarItemDamagedLostBooks = new DevExpress.XtraNavBar.NavBarItem();
 			((System.ComponentModel.ISupportInitialize)documentManagerMain).BeginInit();
 			((System.ComponentModel.ISupportInitialize)tabbedView1).BeginInit();
 			((System.ComponentModel.ISupportInitialize)dockManagerMain).BeginInit();
@@ -86,7 +88,7 @@
 			navBarControl1.ActiveGroup = navBarGroupNavigator;
 			navBarControl1.Dock = System.Windows.Forms.DockStyle.Fill;
 			navBarControl1.Groups.AddRange(new DevExpress.XtraNavBar.NavBarGroup[] { navBarGroupNavigator });
-			navBarControl1.Items.AddRange(new DevExpress.XtraNavBar.NavBarItem[] { navBarItemBooks, navBarItemAuthors, navBarItemCategory, navBarItemStudents, navBarItemBookTransactions, navBarItemStatistics });
+			navBarControl1.Items.AddRange(new DevExpress.XtraNavBar.NavBarItem[] { navBarItemBooks, navBarItemAuthors, navBarItemCategory, navBarItemStudents, navBarItemBookTransactions, navBarItemStatistics, navBarItemBookStocks, navBarItemDamagedLostBooks });
 			navBarControl1.Location = new System.Drawing.Point(0, 0);
 			navBarControl1.Name = "navBarControl1";
 			navBarControl1.OptionsNavPane.ExpandedWidth = 190;
@@ -98,7 +100,7 @@
 			// 
 			navBarGroupNavigator.Caption = "Navigator";
 			navBarGroupNavigator.Expanded = true;
-			navBarGroupNavigator.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] { new DevExpress.XtraNavBar.NavBarItemLink(navBarItemBooks), new DevExpress.XtraNavBar.NavBarItemLink(navBarItemAuthors), new DevExpress.XtraNavBar.NavBarItemLink(navBarItemCategory), new DevExpress.XtraNavBar.NavBarItemLink(navBarItemStudents), new DevExpress.XtraNavBar.NavBarItemLink(navBarItemBookTransactions), new DevExpress.XtraNavBar.NavBarItemLink(navBarItemStatistics) });
+			navBarGroupNavigator.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] { new DevExpress.XtraNavBar.NavBarItemLink(navBarItemBooks), new DevExpress.XtraNavBar.NavBarItemLink(navBarItemAuthors), new DevExpress.XtraNavBar.NavBarItemLink(navBarItemCategory), new DevExpress.XtraNavBar.NavBarItemLink(navBarItemStudents), new DevExpress.XtraNavBar.NavBarItemLink(navBarItemBookTransactions), new DevExpress.XtraNavBar.NavBarItemLink(navBarItemStatistics), new DevExpress.XtraNavBar.NavBarItemLink(navBarItemBookStocks), new DevExpress.XtraNavBar.NavBarItemLink(navBarItemDamagedLostBooks) });
 			navBarGroupNavigator.Name = "navBarGroupNavigator";
 			// 
 			// navBarItemBooks
@@ -137,6 +139,18 @@
 			navBarItemStatistics.Name = "navBarItemStatistics";
 			navBarItemStatistics.LinkClicked += navBarItemStatistics_LinkClicked;
 			// 
+			// navBarItemBookStocks
+			// 
+			navBarItemBookStocks.Caption = "Book Stocks";
+			navBarItemBookStocks.Name = "navBarItemBookStocks";
+			navBarItemBookStocks.LinkClicked += navBarItemBookStocks_LinkClicked;
+			// 
+			// navBarItemDamagedLostBooks
+			// 
+			navBarItemDamagedLostBooks.Caption = "Damaged/Lost Books";
+			navBarItemDamagedLostBooks.Name = "navBarItemDamagedLostBooks";
+			navBarItemDamagedLostBooks.LinkClicked += navBarItemDamagedLostBooks_LinkClicked;
+			// 
 			// frmMain
 			// 
 			AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -170,5 +184,7 @@
 		private DevExpress.XtraNavBar.NavBarItem navBarItemStudents;
 		private DevExpress.XtraNavBar.NavBarItem navBarItemBookTransactions;
 		private DevExpress.XtraNavBar.NavBarItem navBarItemStatistics;
+		private DevExpress.XtraNavBar.NavBarItem navBarItemBookStocks;
+		private DevExpress.XtraNavBar.NavBarItem navBarItemDamagedLostBooks;
 	}
 }

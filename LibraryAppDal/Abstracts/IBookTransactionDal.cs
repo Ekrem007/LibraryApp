@@ -17,9 +17,11 @@ namespace LibraryAppDal.Abstracts
 		void UpdateBookTransactions(BookTransfer bookTransfer);
 		List<BookTransactionsWithDetailsDto> GetBooksTransactionsByStudentId(int studentId);
 		List<BookTransactionsWithDetailsDto> GetBooksTransactionsByBookId(int bookId);
-		bool IsBookAvailable(int bookId);
+		bool IsBookAvailable(int bookStockId);
 		void ReturnBook(int bookId);
-		List<StudentHasBooks> StudentsHasBooks(int studentId);
+		BookStock GetBookStockById(int bookStockId);
+		List<StudentHasBooks> StudentHasBooks(int studentId);
 		StatisticsDto GetStatistics();
+		int GetStudentsActiveBorrowedBooksCount(int studentId);
 	}
 }

@@ -49,7 +49,11 @@ namespace LibraryAppDal.Concretes
 					AuthorName = b.Author.Name,
 					CategoryId = b.CategoryId,
 					CategoryName = b.Category.CategoryName,
-					IsAvailable = _bookTransactionDal.IsBookAvailable(b.Id) ? "available" : "not available"
+					BookStock = _context.BookStocks.Where(bs => bs.BookId == b.Id).Count(),
+					AvailableStock = _context.BookStocks
+						.Where(bs => bs.BookId == b.Id && bs.IsAvailable == "Available")
+						.Count(),
+					IsPassive = b.IsPassive
 				})
 				.ToList();
 		}
@@ -74,6 +78,43 @@ namespace LibraryAppDal.Concretes
 		public bool IsBookNameUnique(string bookName, int id)
 		{
 			return !_context.Books.Any(b => b.BookName == bookName && b.Id != id);
+		}
+		public void ChangeBookStatus(int bookId)
+		{
+			var book = _context.Books
+				.Include(b => b.BookStocks)
+				.ThenInclude(bs => bs.BookTransfers)
+				.FirstOrDefault(b => b.Id == bookId);
+
+			if (book == null)
+				throw new Exception("Book not found.");
+
+			book.IsPassive = !book.IsPassive;
+
+			if (book.IsPassive == true)
+			{
+				foreach (var stock in book.BookStocks)
+				{
+					stock.IsAvailable = "Not Available";
+				}
+			}
+			else
+			{
+				foreach (var stock in book.BookStocks)
+				{
+					if (stock.Status == BookStockStatus.Normal)
+					{
+						bool isBorrowed = stock.BookTransfers.Any(bt => bt.ReturnedDate == null);
+						stock.IsAvailable = isBorrowed ? "Not Available" : "Available";
+					}
+					else
+					{
+						stock.IsAvailable = "Not Available";
+					}
+				}
+			}
+
+			_context.SaveChanges();
 		}
 	}
 }

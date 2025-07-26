@@ -30,6 +30,7 @@ namespace LibraryApp.UI.frmAuthor
 			btnAddAuthor.ItemClick += btnAddAuthor_ItemClick;
 			gridViewAuthors.MouseUp += gridViewAuthors_MouseUp;
 			btnRefreshData.ItemClick += btnRefreshData_ItemClick;
+			gridControlAuthors.MouseUp += gridControlAuthors_MouseUp;
 		}
 
 		private void LoadAuthors()
@@ -53,6 +54,14 @@ namespace LibraryApp.UI.frmAuthor
 			else
 			{
 				XtraMessageBox.Show("Lütfen güncellemek istediğiniz yazarı seçin.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+		}
+		private void gridControlAuthors_MouseUp(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Right)
+			{
+
+				popupMenuAuthors.ShowPopup(Control.MousePosition);
 			}
 		}
 		private void gridViewAuthors_MouseUp(object sender, MouseEventArgs e)

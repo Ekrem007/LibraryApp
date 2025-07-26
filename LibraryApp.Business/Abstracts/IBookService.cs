@@ -18,5 +18,6 @@ namespace LibraryApp.Business.Abstracts
 		List<Book> GetBooksByAuthorId(int authorId);
 		List<Book> GetBooksByCategoryId(int categoryId);
 		bool IsBookNameUnique(string bookName, int id);
+		void ChangeBookStatus(int bookId);
 	}
 }

@@ -23,6 +23,8 @@ namespace LibraryAppDal.Context
 		public DbSet<Category> Categories { get; set; }
 		public DbSet<Student> Students { get; set; }
 		public DbSet<BookTransfer> BookTransfer { get; set; }
+		public DbSet<BookStock> BookStocks { get; set; }
+
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -44,10 +46,10 @@ namespace LibraryAppDal.Context
 
 			modelBuilder.Entity<BookTransfer>(entity =>
 			{
-				entity.HasOne(bt => bt.Book)
-					  .WithMany(b => b.BookTransfers)
-					  .HasForeignKey(bt => bt.BookId)
-					  .OnDelete(DeleteBehavior.Cascade);
+				entity.HasOne(bt => bt.BookStock)
+					  .WithMany(bs => bs.BookTransfers)
+					  .HasForeignKey(bt => bt.BookStockId)
+					  .OnDelete(DeleteBehavior.Restrict);
 
 				entity.HasOne(bt => bt.Student)
 					  .WithMany(s => s.BookTransfers)
@@ -55,25 +57,34 @@ namespace LibraryAppDal.Context
 					  .OnDelete(DeleteBehavior.Cascade);
 			});
 
-
 			modelBuilder.Entity<Author>(entity =>
 			{
 				entity.HasIndex(a => a.Name)
 					  .IsUnique();
 			});
+
 			modelBuilder.Entity<Category>(entity =>
 			{
 				entity.HasIndex(c => c.CategoryName)
 					  .IsUnique();
 			});
+
 			modelBuilder.Entity<Student>(entity =>
 			{
 				entity.HasIndex(s => s.StudentNumber)
 					  .IsUnique();
 			});
+
+			modelBuilder.Entity<BookStock>(entity =>
+			{
+				entity.HasOne(bs => bs.Book)
+					  .WithMany(b => b.BookStocks)
+					  .HasForeignKey(bs => bs.BookId)
+					  .OnDelete(DeleteBehavior.Cascade);
+
+				entity.HasIndex(bs => bs.Barcode)
+					  .IsUnique();
+			});
 		}
-
 	}
-
-
 }

@@ -192,7 +192,7 @@
 			luBookName.Properties.DisplayMember = "BookName";
 			luBookName.Properties.NullText = "Choose Book";
 			luBookName.Properties.PopupView = gridLookUpEdit2View;
-			luBookName.Properties.ValueMember = "Id";
+			luBookName.Properties.ValueMember = "BookStockId";
 			luBookName.Size = new System.Drawing.Size(212, 22);
 			luBookName.StyleController = layoutControl1;
 			luBookName.TabIndex = 6;

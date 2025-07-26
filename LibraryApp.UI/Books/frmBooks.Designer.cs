@@ -24,7 +24,9 @@
 			colBookName = new DevExpress.XtraGrid.Columns.GridColumn();
 			colAuthorName = new DevExpress.XtraGrid.Columns.GridColumn();
 			colCategoryName = new DevExpress.XtraGrid.Columns.GridColumn();
-			colIsAvailable = new DevExpress.XtraGrid.Columns.GridColumn();
+			colBookStock = new DevExpress.XtraGrid.Columns.GridColumn();
+			colAvailableStock = new DevExpress.XtraGrid.Columns.GridColumn();
+			colIsPassive = new DevExpress.XtraGrid.Columns.GridColumn();
 			barManagerBooks = new DevExpress.XtraBars.BarManager(components);
 			barDockControlTop = new DevExpress.XtraBars.BarDockControl();
 			barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
@@ -57,7 +59,7 @@
 			// 
 			// gridViewBooks
 			// 
-			gridViewBooks.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] { colId, colBookName, colAuthorName, colCategoryName, colIsAvailable });
+			gridViewBooks.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] { colId, colBookName, colAuthorName, colCategoryName, colBookStock, colAvailableStock, colIsPassive });
 			gridViewBooks.DetailHeight = 431;
 			gridViewBooks.GridControl = gridControlBooks;
 			gridViewBooks.Name = "gridViewBooks";
@@ -107,16 +109,38 @@
 			colCategoryName.VisibleIndex = 3;
 			colCategoryName.Width = 94;
 			// 
-			// colIsAvailable
+			// colBookStock
 			// 
-			colIsAvailable.AccessibleName = "colIsAvailable";
-			colIsAvailable.Caption = "Is Available";
-			colIsAvailable.FieldName = "IsAvailable";
-			colIsAvailable.MinWidth = 25;
-			colIsAvailable.Name = "colIsAvailable";
-			colIsAvailable.Visible = true;
-			colIsAvailable.VisibleIndex = 4;
-			colIsAvailable.Width = 94;
+			colBookStock.AccessibleName = "colBookStock";
+			colBookStock.Caption = "Total Books at Stock";
+			colBookStock.FieldName = "BookStock";
+			colBookStock.MinWidth = 25;
+			colBookStock.Name = "colBookStock";
+			colBookStock.Visible = true;
+			colBookStock.VisibleIndex = 4;
+			colBookStock.Width = 94;
+			// 
+			// colAvailableStock
+			// 
+			colAvailableStock.AccessibleName = "colAvailableStock";
+			colAvailableStock.Caption = "Available Stock";
+			colAvailableStock.FieldName = "AvailableStock";
+			colAvailableStock.MinWidth = 25;
+			colAvailableStock.Name = "colAvailableStock";
+			colAvailableStock.Visible = true;
+			colAvailableStock.VisibleIndex = 5;
+			colAvailableStock.Width = 94;
+			// 
+			// colIsPassive
+			// 
+			colIsPassive.AccessibleName = "colIsPassive";
+			colIsPassive.Caption = "Passive Status";
+			colIsPassive.FieldName = "IsPassive";
+			colIsPassive.MinWidth = 25;
+			colIsPassive.Name = "colIsPassive";
+			colIsPassive.Visible = true;
+			colIsPassive.VisibleIndex = 6;
+			colIsPassive.Width = 94;
 			// 
 			// barManagerBooks
 			// 
@@ -241,6 +265,8 @@
 		private DevExpress.XtraBars.BarButtonItem btnDeleteBook;
 		private DevExpress.XtraBars.BarButtonItem btnRefreshData;
 		private DevExpress.XtraBars.BarButtonItem btnGiveBookToStudent;
-		private DevExpress.XtraGrid.Columns.GridColumn colIsAvailable;
+		private DevExpress.XtraGrid.Columns.GridColumn colBookStock;
+		private DevExpress.XtraGrid.Columns.GridColumn colAvailableStock;
+		private DevExpress.XtraGrid.Columns.GridColumn colIsPassive;
 	}
 }

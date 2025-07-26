@@ -126,7 +126,7 @@ namespace LibraryApp.UI.frmStudents
 		{
 			try
 			{
-				if (gridViewStudents.GetFocusedRow() is Student selectedStudent)
+				if (gridViewStudents.GetFocusedRow() is StudentWithDetailsDto selectedStudent)
 				{
 					int studentId = selectedStudent.Id;
 					var studentHasBooks = _bookTransactionService.StudentHasBooks(studentId);

@@ -47,6 +47,8 @@
 			btnRefreshData = new DevExpress.XtraBars.BarButtonItem();
 			btnReturnBook = new DevExpress.XtraBars.BarButtonItem();
 			popupMenuBookTransactions = new DevExpress.XtraBars.PopupMenu(components);
+			colAuthorName = new DevExpress.XtraGrid.Columns.GridColumn();
+			colBarcode = new DevExpress.XtraGrid.Columns.GridColumn();
 			((System.ComponentModel.ISupportInitialize)gridControlBookTransferOperations).BeginInit();
 			((System.ComponentModel.ISupportInitialize)gridViewBookTransferOperations).BeginInit();
 			((System.ComponentModel.ISupportInitialize)barManagerBookTransactions).BeginInit();
@@ -67,7 +69,7 @@
 			// 
 			// gridViewBookTransferOperations
 			// 
-			gridViewBookTransferOperations.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] { colId, colStudentName, colBookName, colBorrowedDate, colReturnDate });
+			gridViewBookTransferOperations.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] { colId, colStudentName, colBookName, colBorrowedDate, colReturnDate, colAuthorName, colBarcode });
 			gridViewBookTransferOperations.DetailHeight = 431;
 			gridViewBookTransferOperations.GridControl = gridControlBookTransferOperations;
 			gridViewBookTransferOperations.Name = "gridViewBookTransferOperations";
@@ -217,6 +219,28 @@
 			popupMenuBookTransactions.Manager = barManagerBookTransactions;
 			popupMenuBookTransactions.Name = "popupMenuBookTransactions";
 			// 
+			// colAuthorName
+			// 
+			colAuthorName.AccessibleName = "colAuthorName";
+			colAuthorName.Caption = "Author Name";
+			colAuthorName.FieldName = "AuthorName";
+			colAuthorName.MinWidth = 25;
+			colAuthorName.Name = "colAuthorName";
+			colAuthorName.Visible = true;
+			colAuthorName.VisibleIndex = 5;
+			colAuthorName.Width = 94;
+			// 
+			// colBarcode
+			// 
+			colBarcode.AccessibleName = "colBarcode";
+			colBarcode.Caption = "Barcode";
+			colBarcode.FieldName = "Barcode";
+			colBarcode.MinWidth = 25;
+			colBarcode.Name = "colBarcode";
+			colBarcode.Visible = true;
+			colBarcode.VisibleIndex = 6;
+			colBarcode.Width = 94;
+			// 
 			// frmBookTransactions
 			// 
 			AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -257,5 +281,7 @@
 		private DevExpress.XtraBars.BarButtonItem btnDeleteBookTransaction;
 		private DevExpress.XtraBars.BarButtonItem btnRefreshData;
 		private DevExpress.XtraBars.BarButtonItem btnReturnBook;
+		private DevExpress.XtraGrid.Columns.GridColumn colAuthorName;
+		private DevExpress.XtraGrid.Columns.GridColumn colBarcode;
 	}
 }

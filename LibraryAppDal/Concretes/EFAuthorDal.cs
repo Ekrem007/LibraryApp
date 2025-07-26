@@ -40,19 +40,22 @@ namespace LibraryAppDal.Concretes
 		public List<AuthorDto> GetAllAuthors()
 		{
 			var authors = _context.Authors
-				.Include(a => a.Books)
+				.Include(a => a.Books).ThenInclude(b => b.BookStocks)
+				.Select(a => new AuthorDto
+				{
+					Id = a.Id,
+					Name = a.Name,
+					TotalBooks = a.Books.Count(),
+					TotalAvailableBooks = a.Books
+						.SelectMany(b => b.BookStocks)
+						.Count(bs => bs.IsAvailable == "Available"),
+					TotalNotAvailableBooks = a.Books
+						.SelectMany(b => b.BookStocks)
+						.Count(bs => bs.IsAvailable == "Not Available")
+				})
 				.ToList();
 
-			var result = authors.Select(a => new AuthorDto
-			{
-				Id = a.Id,
-				Name = a.Name,
-				TotalBooks = a.Books.Count,
-				TotalAvailableBooks = a.Books.Count(b => _bookTransactionDal.IsBookAvailable(b.Id)),
-				TotalNotAvailableBooks = a.Books.Count(b => !_bookTransactionDal.IsBookAvailable(b.Id))
-			}).ToList();
-
-			return result;
+			return authors;
 		}
 		public void UpdateAuthor(Author author)
 		{
